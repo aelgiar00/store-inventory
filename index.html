@@ -369,9 +369,10 @@
             ITEMS.forEach((item, i) => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
+                // التعديل هنا: تم إزالة inputmode نهائياً ليفتح الكيبورد الكاملة (أرقام وحروف ورموز)
                 card.innerHTML = `
                     <label for="item_${i}">${item}</label>
-                    <input type="text" inputmode="text" id="item_${i}" placeholder="0">
+                    <input type="text" id="item_${i}" placeholder="0">
                 `;
                 grid.appendChild(card);
             });
