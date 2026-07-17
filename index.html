@@ -323,7 +323,6 @@
     </div>
     
     <script>
-        // تم إضافة الأصناف الثلاثة الجديدة في نهاية القائمة هنا
         const ITEMS = ["بيتي","كل يوم","زبادي سادة","زبادي فراولة","زبادي كبير","دانيت","زبادو كبير","زبادو صغير","لبن مراعي لتر","لبن مراعي لتر ونص","لبن بخيره","عصير لتر","جبنة صغير فلفل","جبنة صغير فيتا","جبنة كبير فلفل","جبنة كبير فيتا","جبنة مراعي نص","جبنة مراعي ربع","جبنة مراعي ثمن","مخلل كبير","مخلل سكينة","مخلل لوكس صغير","مخلل بوليف صغير","فليتو فلفل","فليتو زيتون","شيف","حكاية فلفل","حكاية زيتون","حكاية بيور", "حلاوة", "مخلل من غير لمون", "جبنة قديمة", "لهاليبو", "تريتس 105", "تريتس 70", "محليات"];
         
         let selectedItems = {};
@@ -372,36 +371,24 @@
                 card.className = 'item-card';
                 card.innerHTML = `
                     <label for="item_${i}">${item}</label>
-                    <input type="text" inputmode="decimal" id="item_${i}" placeholder="0">
+                    <input type="text" inputmode="text" id="item_${i}" placeholder="0">
                 `;
                 grid.appendChild(card);
             });
         }
         
-        function evaluateInput(val) {
-            if (!val) return 0;
-            const cleanVal = val.replace(/[^0-9\.\+]/g, '');
-            if (!cleanVal) return 0;
-            
-            const parts = cleanVal.split('+');
-            let sum = 0;
-            parts.forEach(p => {
-                const num = parseFloat(p);
-                if (!isNaN(num) && num > 0) sum += num;
-            });
-            return sum;
-        }
-
         function handleSubmit(e) {
             e.preventDefault();
             selectedItems = {};
             let hasItems = false;
             
             ITEMS.forEach((item, i) => {
-                const rawValue = document.getElementById(`item_${i}`).value;
-                const qty = evaluateInput(rawValue);
-                if (qty > 0) {
-                    selectedItems[item] = qty;
+                // سحب القيمة زي ما هي مكتوبة بالظبط
+                const rawValue = document.getElementById(`item_${i}`).value.trim();
+                
+                // لو المربع مش فاضي ومش مكتوب فيه صفر، هيحفظه بنفس شكله
+                if (rawValue !== "" && rawValue !== "0") {
+                    selectedItems[item] = rawValue;
                     hasItems = true;
                 }
             });
