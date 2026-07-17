@@ -369,10 +369,10 @@
             ITEMS.forEach((item, i) => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
-                // التعديل هنا: تم إزالة inputmode نهائياً ليفتح الكيبورد الكاملة (أرقام وحروف ورموز)
+                // التعديل هنا: تم إغلاق الـ autocomplete والـ autocorrect والـ spellcheck لمنع الاقتراحات القديمة تماماً
                 card.innerHTML = `
                     <label for="item_${i}">${item}</label>
-                    <input type="text" id="item_${i}" placeholder="0">
+                    <input type="text" id="item_${i}" placeholder="0" autocomplete="off" autocorrect="off" spellcheck="false">
                 `;
                 grid.appendChild(card);
             });
@@ -384,10 +384,7 @@
             let hasItems = false;
             
             ITEMS.forEach((item, i) => {
-                // سحب القيمة زي ما هي مكتوبة بالظبط
                 const rawValue = document.getElementById(`item_${i}`).value.trim();
-                
-                // لو المربع مش فاضي ومش مكتوب فيه صفر، هيحفظه بنفس شكله
                 if (rawValue !== "" && rawValue !== "0") {
                     selectedItems[item] = rawValue;
                     hasItems = true;
