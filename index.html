@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تطبيق تتبع استهلاك الأصناف</title>
     
-    <!-- ربط ملف الـ Manifest لتحويله لتطبيق -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#007bff">
     
-    <!-- كود تشغيل الـ Service Worker (عشان الأوفلاين) -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
       }
     </script>
 
-    <!-- مكاتب فايربيز لربط قواعد البيانات -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
@@ -295,7 +292,8 @@
         </div>
         
         <div class="tab-content active no-print" id="tab-input">
-            <form id="consumptionForm">
+            <!-- إضافة autocomplete="off" للفورم بالكامل -->
+            <form id="consumptionForm" autocomplete="off">
                 <div class="items-grid" id="itemsGrid"></div>
                 <button type="submit" class="btn-submit">✓ تأكيد السحب</button>
             </form>
@@ -369,10 +367,11 @@
             ITEMS.forEach((item, i) => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
-                // التعديل هنا: تم إغلاق الـ autocomplete والـ autocorrect والـ spellcheck لمنع الاقتراحات القديمة تماماً
+                // الخدعة هنا: إعطاء اسم عشوائي واستخدام new-password
+                const randomName = 'field_' + Math.floor(Math.random() * 1000000);
                 card.innerHTML = `
                     <label for="item_${i}">${item}</label>
-                    <input type="text" id="item_${i}" placeholder="0" autocomplete="off" autocorrect="off" spellcheck="false">
+                    <input type="text" id="item_${i}" name="${randomName}" placeholder="0" autocomplete="new-password" autocorrect="off" spellcheck="false">
                 `;
                 grid.appendChild(card);
             });
